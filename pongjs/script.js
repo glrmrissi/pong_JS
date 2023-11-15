@@ -1,6 +1,6 @@
 let ctx, p1_y, p2_y, p1_points, p2_points;
 let w = 1920, h = 1080, pw = 20, ph = 100, p1_x = 7, p2_x = w - pw - 7;
-let p1_key, p2_key;
+let p1_key = null, p2_key = null;
 let ballX, ballY, ballX_ori, ballY_ori;
 let gameStarted = false;
 let acceleration = 0.1;
@@ -90,9 +90,9 @@ function fps() {
         p1_y += 10   //Calcula para baixo
     }
 
-    if (p2_key == 38 && p2_y > 0) {
+    if (p2_key == 104 && p2_y > 0) {
         p2_y -= 10  //Calcula para cima
-    } else if (p2_key == 40 && p2_y + ph < h) {
+    } else if (p2_key == 101 && p2_y + ph < h) {
         p2_y += 10//Calcula para baixo
     }
 
@@ -152,21 +152,40 @@ function fps() {
 }
 
 let p1_movementDirection = 0;
+let p2_movementDirection = 0;
 
-document.addEventListener("keydown", function (ky) { // Definindo as teclas
+document.addEventListener("keydown", function (ky) {
     if (ky.keyCode == 87) {
         p1_key = ky.keyCode;    // W
         p1_movementDirection = -1; // Define a direção para cima
     } else if (ky.keyCode == 83) {
         p1_key = ky.keyCode;    // S
         p1_movementDirection = 1; // Define a direção para baixo
-    } else if (ky.keyCode == 38) {
-        p2_key = ky.keyCode;    // CIMA
-    } else if (ky.keyCode == 40) {
-        p2_key = ky.keyCode;    // BAIXO
     }
 });
 
+document.addEventListener("keyup", function (ky) {
+    if (ky.keyCode == p1_key) {
+        p1_key = null; // Limpa a tecla pressionada
+        p1_movementDirection = 0; // Define a direção como zero para parar o movimento
+    }
+});
+document.addEventListener("keydown", function (ky) {
+    if (ky.keyCode == 104) {
+        p2_key = ky.keyCode;    // W
+        p2_movementDirection = -1; // Define a direção para cima
+    } else if (ky.keyCode == 101) {
+        p2_key = ky.keyCode;    // S
+        p2_movementDirection = 1; // Define a direção para baixo
+    }
+});
+
+document.addEventListener("keyup", function (ky) {
+    if (ky.keyCode == p2_key) {
+        p2_key = null; // Limpa a tecla pressionada
+        p2_movementDirection = 0; // Define a direção como zero para parar o movimento
+    }
+});
 
 
 document.addEventListener("DOMContentLoaded", init);

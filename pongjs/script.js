@@ -3,10 +3,9 @@ let w = 1920, h = 1080, pw = 20, ph = 100, p1_x = 7, p2_x = w - pw - 7;
 let p1_key = null, p2_key = null;
 let ballX, ballY, ballX_ori, ballY_ori;
 let gameStarted = false;
-let acceleration = 0.1;
+let acceleration = 0.2;
 let ballSpeedX = 5; // Velocidade inicial da bola ao longo do eixo X
 let ballSpeedY = 5; // Velocidade inicial da bola ao longo do eixo Y
-
 
 
 function init() {
@@ -50,11 +49,8 @@ function drawStartScreen() {
     el(0, 0, w, h, "#000"); // Background
     ctx.font = "40px Arial";
     ctx.fillStyle = "#fff";
-    ctx.fillText("Pressione a barra de espaço para começar", w / 3 -50 , h / 2);
+    ctx.fillText("Pressione a barra de espaço para começar", w / 3 - 50, h / 2);
 }
-
-
-
 
 function points() {
     ctx.font = "50px Arial"
@@ -82,6 +78,7 @@ function ball() {
 }
 
 
+
 function fps() {
 
     if (p1_key == 87 && p1_y > 0) {
@@ -106,9 +103,19 @@ function fps() {
         ballSpeedX += ballSpeedX > 0 ? acceleration : -acceleration;
 
     }
-    
 
-    
+
+    if (ballX + 10 >= p1_x && ballX <= p1_x + pw && ballY + 10 >= p1_y && ballY <= p1_y + ph) {
+        ballX_ori = 1;
+        ballSpeedX += ballSpeedX > 0 ? acceleration : -acceleration;
+        ballSpeedY += p1_movementDirection * acceleration * 0.2; // Ajuste o fator multiplicador conforme necessário
+    }
+    if (ballX + 10 >= p2_x && ballX <= p2_x + pw && ballY + 10 >= p2_y && ballY <= p2_y + ph) {
+        ballX_ori = -1;
+        ballSpeedX += ballSpeedX > 0 ? acceleration : -acceleration;
+        ballSpeedY += p2_movementDirection * acceleration * 0.2; // Ajuste o fator multiplicador conforme necessário
+    }
+
     if (!gameStarted) {
         return; // Se o jogo não estiver iniciado, saia da função
     }
@@ -125,11 +132,9 @@ function fps() {
     if (ballY + 10 >= h || ballY <= 0) ballY_ori *= - 1
 
     //Velocidade aplicada na saida
-    ballX += 5 * ballX_ori
-    ballY += 5 * ballY_ori
 
-    ballSpeedX += ballSpeedX > 0 ? acceleration : -acceleration;
-    ballSpeedY += ballSpeedY > 0 ? acceleration : -acceleration;
+    ballX += 7 * ballX_ori
+    ballY += 7 * ballY_ori
 
     // Restante do seu código fps
 
